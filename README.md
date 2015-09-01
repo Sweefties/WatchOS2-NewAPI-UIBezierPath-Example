@@ -47,7 +47,7 @@ circle.lineWidth = 2.0
 strokeColor.setStroke()
 
 if circleDash {
-let dashes:[CGFloat] = [circle.lineWidth * 0, circle.lineWidth * 2]
+    let dashes:[CGFloat] = [circle.lineWidth * 0, circle.lineWidth * 2]
     circle.setLineDash(dashes, count: dashes.count, phase: 0)
     circle.lineCapStyle = .Round
 }
