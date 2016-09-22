@@ -16,13 +16,13 @@ class InterfaceController: WKInterfaceController {
     @IBOutlet var drawImage: WKInterfaceImage!
     
     // MARK: - Properties
-    private let color = UIColor(red: 0.0/255.0, green: 153.0/255.0, blue: 221.0/255.0, alpha: 1.0)
-    private let scale = WKInterfaceDevice.currentDevice().screenScale
-    private let circleDash:Bool = true // false to draw a classic circle
+    fileprivate let color = UIColor(red: 0.0/255.0, green: 153.0/255.0, blue: 221.0/255.0, alpha: 1.0)
+    fileprivate let scale = WKInterfaceDevice.current().screenScale
+    fileprivate let circleDash:Bool = true // false to draw a classic circle
     
     // MARK: - Calls
-    override func awakeWithContext(context: AnyObject?) {
-        super.awakeWithContext(context)
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
         // Configure interface objects here.
     }
     
@@ -43,14 +43,14 @@ class InterfaceController: WKInterfaceController {
 typealias DrawUIBezierPath = InterfaceController
 extension DrawUIBezierPath {
     
-    private func drawUIBezierPathInImage() {
+    fileprivate func drawUIBezierPathInImage() {
         // Begin context for image
         UIGraphicsBeginImageContextWithOptions(self.contentFrame.size, false, scale)
         
         // Define content frame, center, radius
         let contentFrameWidth = self.contentFrame.size.width
         let contentFrameHeight = self.contentFrame.size.height
-        let center = CGPointMake(contentFrameWidth / 2.0, contentFrameHeight / 2.0)
+        let center = CGPoint(x: contentFrameWidth / 2.0, y: contentFrameHeight / 2.0)
         let radius = min(contentFrameWidth / 2.0, contentFrameHeight / 2.0) - 2
         
         // Set Color, Circle, Stroke, LineWidth
@@ -62,23 +62,23 @@ extension DrawUIBezierPath {
         if circleDash {
             let dashes:[CGFloat] = [circle.lineWidth * 0, circle.lineWidth * 2]
             circle.setLineDash(dashes, count: dashes.count, phase: 0)
-            circle.lineCapStyle = .Round
+            circle.lineCapStyle = .round
         }
         // Draw line / dashes for circle
         circle.stroke()
         
         // Set text title with attributes
         let title:String = "UIBezierPath"
-        let rectTitle = CGRectMake(center.x - radius / 4.0, center.y - radius / 4.0, radius / 2.0, radius / 2.0)
-        let textStyle = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
-        textStyle.alignment = NSTextAlignment.Center
+        let rectTitle = CGRect(x: center.x - radius / 4.0, y: center.y - radius / 4.0, width: radius / 2.0, height: radius / 2.0)
+        let textStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+        textStyle.alignment = NSTextAlignment.center
         
         let textAttributes: [String: AnyObject] = [
-            NSForegroundColorAttributeName : color.CGColor,
-            NSFontAttributeName : UIFont.systemFontOfSize(8),
+            NSForegroundColorAttributeName : color.cgColor,
+            NSFontAttributeName : UIFont.systemFont(ofSize: 8),
             NSParagraphStyleAttributeName : textStyle
         ]
-        title.drawInRect(rectTitle, withAttributes: textAttributes)
+        title.draw(in: rectTitle, withAttributes: textAttributes)
         
         // Context create image
         let drawingImage = UIGraphicsGetImageFromCurrentImageContext()
